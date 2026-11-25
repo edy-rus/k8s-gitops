@@ -1,0 +1,13 @@
+# Argo CD for a single small node: no SSO and no notifications yet.
+# Access will come through the Tailscale operator (see ROADMAP.md).
+
+dex:
+  enabled: false
+
+notifications:
+  enabled: false
+
+configs:
+  params:
+    # TLS is terminated by Tailscale in front of the server.
+    server.insecure: true

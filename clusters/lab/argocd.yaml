@@ -1,0 +1,31 @@
+# Argo CD manages its own install. k8s-infra installs the first copy with the
+# same release name ("argocd"), then this application takes it over.
+# Upgrade Argo CD by changing targetRevision below.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 10.19.1
+      helm:
+        releaseName: argocd
+        valueFiles:
+          - $values/apps/argocd/values.yaml
+    - repoURL: https://github.com/edy-rus/k8s-gitops.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # The Argo CD CRDs are too big for client-side apply annotations.
+      - ServerSideApply=true
