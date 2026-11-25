@@ -19,7 +19,7 @@ flowchart TB
 These shape every choice below:
 
 - **One small node.** The lab is a single Talos VM on chibang, which has 4 cores and 32 GB of RAM in total. Everything must fit next to the storage host's own work.
-- **The network is about to change.** A house move, then a month or two of travel, possibly with chibang replicated to a site in the US. Nothing should depend on a LAN address range.
+- **The network can change.** chibang may move between sites, so nothing should depend on a LAN address range. The cluster should work at any site with DHCP and a tailnet.
 - **Storage stays on chibang.** The cluster only keeps data it can lose, such as metrics and logs with short retention. Apps that need real data wait.
 
 ## Foundation
